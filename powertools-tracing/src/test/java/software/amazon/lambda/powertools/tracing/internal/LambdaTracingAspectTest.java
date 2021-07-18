@@ -38,7 +38,6 @@ import software.amazon.lambda.powertools.tracing.handlers.PowerTracerToolEnabled
 import software.amazon.lambda.powertools.tracing.handlers.PowerTracerToolEnabledForStreamWithNoMetaData;
 import software.amazon.lambda.powertools.tracing.handlers.PowerTracerToolEnabledWithException;
 import software.amazon.lambda.powertools.tracing.handlers.PowerTracerToolEnabledWithNoMetaData;
-import software.amazon.lambda.powertools.tracing.handlers.PowerTracerToolEnabledWithNoMetaDataDeprecated;
 import software.amazon.lambda.powertools.tracing.nonhandler.PowerToolNonHandler;
 
 import static org.apache.commons.lang3.reflect.FieldUtils.writeStaticField;
@@ -195,24 +194,6 @@ class LambdaTracingAspectTest {
         streamHandler = new PowerTracerToolEnabledForStreamWithNoMetaData();
 
         streamHandler.handleRequest(new ByteArrayInputStream("test".getBytes()), new ByteArrayOutputStream(), context);
-
-        assertThat(AWSXRay.getTraceEntity().getSubsegments())
-                .hasSize(1)
-                .allSatisfy(subsegment -> {
-                    assertThat(subsegment.getAnnotations())
-                            .hasSize(1)
-                            .containsEntry("ColdStart", true);
-
-                    assertThat(subsegment.getMetadata())
-                            .isEmpty();
-                });
-    }
-
-    @Test
-    void shouldCaptureTracesWithNoMetadataDeprecated() {
-        requestHandler = new PowerTracerToolEnabledWithNoMetaDataDeprecated();
-
-        requestHandler.handleRequest(new Object(), context);
 
         assertThat(AWSXRay.getTraceEntity().getSubsegments())
                 .hasSize(1)

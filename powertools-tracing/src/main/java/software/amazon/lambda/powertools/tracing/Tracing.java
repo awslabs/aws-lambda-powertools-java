@@ -33,12 +33,12 @@ import java.lang.annotation.Target;
  * <p>By default {@code Tracing} will capture responses and add them
  * to a sub segment named after the method.</p>
  *
- * <p>To disable this functionality you can specify {@code @Tracing( captureResponse = false)}</p>
+ * <p>To disable this functionality you can specify {@code @Tracing( captureMode = CaptureMode.DISABLED)}</p>
  *
  * <p>By default {@code Tracing} will capture errors and add them
  * to a sub segment named after the method.</p>
  *
- * <p>To disable this functionality you can specify {@code @Tracing( captureError = false)}</p>
+ * <p>To disable this functionality you can specify {@code @Tracing( captureMode = CaptureMode.DISABLED)}</p>
  *e
  * <p>All traces have a namespace set. If {@code @Tracing( namespace = "ExampleService")} is set
  * this takes precedent over any value set in the environment variable {@code POWER_TOOLS_SERVICE_NAME}.
@@ -48,20 +48,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Tracing {
     String namespace() default "";
-    /**
-     * @deprecated As of release 1.2.0, replaced by captureMode()
-     * in order to support different modes and support via
-     * environment variables
-     */
-    @Deprecated
-    boolean captureResponse() default true;
-    /**
-     * @deprecated As of release 1.2.0, replaced by captureMode()
-     * in order to support different modes and support via
-     * environment variables
-     */
-    @Deprecated
-    boolean captureError() default true;
     String segmentName() default "";
     CaptureMode captureMode() default CaptureMode.ENVIRONMENT_VAR;
 }

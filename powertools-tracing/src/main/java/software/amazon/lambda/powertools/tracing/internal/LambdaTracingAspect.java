@@ -79,7 +79,7 @@ public final class LambdaTracingAspect {
         switch (powerToolsTracing.captureMode()) {
             case ENVIRONMENT_VAR:
                 boolean captureResponse = environmentVariable("POWERTOOLS_TRACER_CAPTURE_RESPONSE");
-                return isEnvironmentVariableSet("POWERTOOLS_TRACER_CAPTURE_RESPONSE") ? captureResponse : powerToolsTracing.captureResponse();
+                return !isEnvironmentVariableSet("POWERTOOLS_TRACER_CAPTURE_RESPONSE") || captureResponse;
             case RESPONSE:
             case RESPONSE_AND_ERROR:
                 return true;
@@ -93,7 +93,7 @@ public final class LambdaTracingAspect {
         switch (powerToolsTracing.captureMode()) {
             case ENVIRONMENT_VAR:
                 boolean captureError = environmentVariable("POWERTOOLS_TRACER_CAPTURE_ERROR");
-                return isEnvironmentVariableSet("POWERTOOLS_TRACER_CAPTURE_ERROR") ? captureError : powerToolsTracing.captureError();
+                return !isEnvironmentVariableSet("POWERTOOLS_TRACER_CAPTURE_ERROR") || captureError;
             case ERROR:
             case RESPONSE_AND_ERROR:
                 return true;
